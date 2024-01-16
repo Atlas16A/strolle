@@ -1,4 +1,4 @@
-use glam::{vec4, Vec2, Vec3, Vec4, Vec4Swizzles};
+use glam::{vec3, vec4, Vec2, Vec3, Vec4, Vec4Swizzles};
 #[cfg(target_arch = "spirv")]
 use spirv_std::num_traits::Float;
 
@@ -6,7 +6,7 @@ use crate::{F32Ext, Normal, U32Ext};
 
 #[derive(Clone, Copy, Default)]
 pub struct GBufferEntry {
-    pub base_color: Vec4,
+    pub base_color: Vec3,
     pub normal: Vec3,
     pub metallic: f32,
     pub emissive: Vec3,
@@ -34,15 +34,9 @@ impl GBufferEntry {
         let emissive = d1.xyz();
 
         let base_color = {
-            let [x, y, z, w] = d1.w.to_bits().to_bytes();
+            let [x, y, z, _] = d1.w.to_bits().to_bytes();
 
-            vec4(
-                x as f32 / 255.0,
-                y as f32 / 255.0,
-                z as f32 / 255.0,
-                w as f32 / 255.0,
-            )
-            .powf(2.2)
+            vec3(x as f32 / 255.0, y as f32 / 255.0, z as f32 / 255.0).powf(2.2)
         };
 
         Self {
@@ -84,18 +78,14 @@ impl GBufferEntry {
             let z = self.emissive.z;
 
             let w = {
-                let base_color = self
-                    .base_color
-                    .powf(1.0 / 2.2)
-                    .clamp(Vec4::ZERO, Vec4::ONE);
-
-                let base_color = (base_color * 255.0).as_uvec4();
+                let base_color = self.base_color.powf(1.0 / 2.2);
+                let base_color = (base_color * 255.0).as_uvec3();
 
                 f32::from_bits(u32::from_bytes([
                     base_color.x,
                     base_color.y,
                     base_color.z,
-                    base_color.w,
+                    0,
                 ]))
             };
 
@@ -138,7 +128,7 @@ mod tests {
     #[test]
     fn serialization() {
         let target = GBufferEntry {
-            base_color: vec4(0.1, 0.2, 0.3, 0.4),
+            base_color: vec3(0.1, 0.2, 0.3),
             normal: vec3(0.26, 0.53, 0.80),
             metallic: 0.33,
             emissive: vec3(2.0, 3.0, 4.0),
@@ -152,7 +142,6 @@ mod tests {
         assert_relative_eq!(target.base_color.x, 0.1, epsilon = EPSILON);
         assert_relative_eq!(target.base_color.y, 0.2, epsilon = EPSILON);
         assert_relative_eq!(target.base_color.z, 0.3, epsilon = EPSILON);
-        assert_relative_eq!(target.base_color.w, 0.4, epsilon = EPSILON);
 
         assert_relative_eq!(target.normal.x, 0.26, epsilon = EPSILON);
         assert_relative_eq!(target.normal.y, 0.53, epsilon = EPSILON);

@@ -107,11 +107,9 @@ pub fn main(
         gi_material.regularize();
 
         GBufferEntry {
-            base_color: gi_material.base_color(
-                atlas_tex,
-                atlas_sampler,
-                gi_hit.uv,
-            ),
+            base_color: gi_material
+                .base_color(atlas_tex, atlas_sampler, gi_hit.uv)
+                .xyz(),
             normal: gi_hit.normal,
             metallic: gi_material.metallic,
             emissive: gi_material.emissive(atlas_tex, atlas_sampler, gi_hit.uv),

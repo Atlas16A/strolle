@@ -90,7 +90,7 @@ pub fn fs(
     let depth = ray.origin().distance(point);
 
     let gbuffer = GBufferEntry {
-        base_color,
+        base_color: base_color.xyz(),
         normal,
         metallic: material.metallic,
         emissive: material.emissive(atlas_tex, atlas_sampler, uv),

@@ -116,11 +116,9 @@ pub fn main(
             origin: ray.origin(),
             direction: ray.direction(),
             gbuffer: GBufferEntry {
-                base_color: material.base_color(
-                    atlas_tex,
-                    atlas_sampler,
-                    t_hit.uv,
-                ),
+                base_color: material
+                    .base_color(atlas_tex, atlas_sampler, t_hit.uv)
+                    .xyz(),
                 normal: t_hit.normal,
                 metallic: material.metallic,
                 emissive: material.emissive(atlas_tex, atlas_sampler, t_hit.uv),

@@ -1,6 +1,6 @@
 use core::f32::consts::PI;
 
-use glam::{vec3, Vec3, Vec4Swizzles};
+use glam::{vec3, Vec3};
 #[cfg(target_arch = "spirv")]
 use spirv_std::num_traits::Float;
 
@@ -18,7 +18,7 @@ impl<'a> DiffuseBrdf<'a> {
 
     pub fn evaluate(self) -> BrdfValue {
         let Self { gbuffer } = self;
-        let radiance = gbuffer.base_color.xyz() * (1.0 - gbuffer.metallic);
+        let radiance = gbuffer.base_color * (1.0 - gbuffer.metallic);
 
         BrdfValue {
             radiance,
@@ -29,8 +29,7 @@ impl<'a> DiffuseBrdf<'a> {
     pub fn sample(self, wnoise: &mut WhiteNoise) -> BrdfSample {
         BrdfSample {
             direction: wnoise.sample_hemisphere(self.gbuffer.normal),
-            throughput: self.gbuffer.base_color.xyz()
-                * (1.0 - self.gbuffer.metallic),
+            throughput: self.gbuffer.base_color * (1.0 - self.gbuffer.metallic),
         }
     }
 }
@@ -68,7 +67,7 @@ impl<'a> SpecularBrdf<'a> {
                 * gbuffer.reflectance
                 * gbuffer.reflectance
                 * (1.0 - gbuffer.metallic)
-                + gbuffer.base_color.xyz() * gbuffer.metallic;
+                + gbuffer.base_color * gbuffer.metallic;
 
             ggx_schlick_fresnel(f0, l_dot_h)
         };
