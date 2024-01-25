@@ -40,7 +40,7 @@ mod utils;
 
 use strolle_gpu::prelude::*;
 
-#[spirv(compute(threads(8, 8)))]
+#[spirv(compute(threads(16, 16)))]
 #[allow(clippy::too_many_arguments)]
 pub fn generate_scattering_lut(
     #[spirv(global_invocation_id)] global_id: UVec3,
@@ -57,7 +57,7 @@ pub fn generate_scattering_lut(
     );
 }
 
-#[spirv(compute(threads(8, 8)))]
+#[spirv(compute(threads(16, 16)))]
 #[allow(clippy::too_many_arguments)]
 pub fn generate_sky_lut(
     #[spirv(global_invocation_id)] global_id: UVec3,
@@ -80,7 +80,7 @@ pub fn generate_sky_lut(
     );
 }
 
-#[spirv(compute(threads(8, 8)))]
+#[spirv(compute(threads(16, 16)))]
 #[allow(clippy::too_many_arguments)]
 pub fn generate_transmittance_lut(
     #[spirv(global_invocation_id)] global_id: UVec3,

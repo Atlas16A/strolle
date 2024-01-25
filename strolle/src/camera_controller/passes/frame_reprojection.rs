@@ -38,7 +38,7 @@ impl FrameReprojectionPass {
         encoder: &mut wgpu::CommandEncoder,
     ) {
         // This pass uses 8x8 warps:
-        let size = (camera.camera.viewport.size + 7) / 8;
+        let size = (camera.camera.viewport.size + 15) / 16;
 
         self.pass.run(camera, encoder, size, ());
     }

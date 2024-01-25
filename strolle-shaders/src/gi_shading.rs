@@ -1,7 +1,7 @@
 use spirv_std::arch::IndexUnchecked;
 use strolle_gpu::prelude::*;
 
-#[spirv(compute(threads(8, 8)))]
+#[spirv(compute(threads(16, 16)))]
 #[allow(clippy::too_many_arguments)]
 pub fn main(
     #[spirv(global_invocation_id)] global_id: UVec3,

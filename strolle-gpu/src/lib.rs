@@ -63,7 +63,7 @@ pub mod prelude {
 ///
 /// For performance reasons, we use a per-workgroup shared-memory array where
 /// each workgroup-thread simply indexes into a different slice of this memory.
-pub type BvhStack<'a> = &'a mut [u32; BVH_STACK_SIZE * 8 * 8];
+pub type BvhStack<'a> = &'a mut [u32; BVH_STACK_SIZE * 16 * 16];
 
 /// Maximum stack size per each workgroup-thread when traversing the BVH.
 ///

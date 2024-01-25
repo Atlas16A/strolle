@@ -19,8 +19,8 @@ use wgpu::{
     Extent3d, TextureDescriptor, TextureDimension, TextureFormat, TextureUsages,
 };
 
-const VIEWPORT_SIZE: UVec2 = uvec2(640, 480);
-const WINDOW_SCALE: f32 = 1.5;
+const VIEWPORT_SIZE: UVec2 = uvec2(1920, 1080);
+const WINDOW_SCALE: f32 = 1.0;
 
 fn main() {
     common::unzip_assets();
@@ -33,6 +33,7 @@ fn main() {
                         WINDOW_SCALE * VIEWPORT_SIZE.x as f32,
                         WINDOW_SCALE * VIEWPORT_SIZE.y as f32,
                     ),
+                    present_mode: bevy::window::PresentMode::AutoNoVsync,
                     ..default()
                 }),
                 ..default()

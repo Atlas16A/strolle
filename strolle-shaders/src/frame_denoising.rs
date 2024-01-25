@@ -1,6 +1,6 @@
 use strolle_gpu::prelude::*;
 
-#[spirv(compute(threads(8, 8)))]
+#[spirv(compute(threads(16, 16)))]
 #[allow(clippy::too_many_arguments)]
 pub fn reproject(
     #[spirv(global_invocation_id)] global_id: UVec3,
@@ -84,7 +84,7 @@ pub fn reproject(
     }
 }
 
-#[spirv(compute(threads(8, 8)))]
+#[spirv(compute(threads(16, 16)))]
 #[allow(clippy::too_many_arguments)]
 pub fn estimate_variance(
     #[spirv(global_invocation_id)] global_id: UVec3,
@@ -226,7 +226,7 @@ pub fn estimate_variance(
     }
 }
 
-#[spirv(compute(threads(8, 8)))]
+#[spirv(compute(threads(16, 16)))]
 #[allow(clippy::too_many_arguments)]
 pub fn wavelet(
     #[spirv(global_invocation_id)] global_id: UVec3,

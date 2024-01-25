@@ -51,7 +51,7 @@ impl RefShadingPass {
         depth: u8,
     ) {
         // This pass uses 8x8 warps:
-        let size = (camera.camera.viewport.size + 7) / 8;
+        let size = (camera.camera.viewport.size + 15) / 16;
 
         let params = gpu::RefPassParams {
             seed: rand::thread_rng().gen(),

@@ -51,7 +51,7 @@ impl GiDiffSpatialResamplingPass {
         encoder: &mut wgpu::CommandEncoder,
     ) {
         // This pass uses 8x8 warps:
-        let size = (camera.camera.viewport.size + 7) / 8;
+        let size = (camera.camera.viewport.size + 15) / 16;
 
         let params_a = camera.pass_params();
         let params_b = camera.pass_params();
