@@ -153,12 +153,18 @@ fn setup_camera(
 
 fn setup_scene(
     mut commands: Commands,
-    assets: Res<AssetServer>,
+    //assets: Res<AssetServer>,
     mut materials: ResMut<Assets<StandardMaterial>>,
     mut meshes: ResMut<Assets<Mesh>>,
 ) {
-    commands.spawn(SceneBundle {
-        scene: assets.load("demo/level.glb#Scene0"),
+    commands.spawn(PbrBundle {
+        mesh: meshes.add(shape::Cube { size: -40.0 }.into()),
+        material: materials.add(StandardMaterial {
+            base_color: Color::RED,
+            unlit: true,
+            ..default()
+        }),
+        transform: Transform::from_xyz(0.0, 0.0, 0.0),
         ..default()
     });
 
@@ -221,7 +227,7 @@ fn setup_scene(
             },
             ..default()
         })
-        .insert(Flashlight { enabled: false });
+        .insert(Flashlight { enabled: true });
 }
 
 // -----------------------------------------------------------------------------
